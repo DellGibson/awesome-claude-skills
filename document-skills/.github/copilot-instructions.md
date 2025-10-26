@@ -85,6 +85,11 @@ When working with SKILL.md files:
 - Playwright: HTML rendering for presentation creation
 - Sharp: Image processing for gradients and icons
 
+### MCP Server Integration
+- **Playwright MCP**: Available via `npx @playwright/mcp@latest` for browser automation
+- **Configuration**: See `claude_desktop_config.json` for MCP server setup
+- **Use case**: Automated testing of HTML slides and web-based document previews
+
 ## Common Pitfalls
 
 1. **OOXML editing without validation** - Always run validate.py after modifications
