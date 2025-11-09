@@ -1,0 +1,94 @@
+{
+  "category": "business-marketing",
+  "name": "Business & Marketing",
+  "description": "Market intelligence, brand management, lead generation, and business communications",
+  "skillCount": 5,
+  "agentPool": "business-intelligence",
+  "totalTokenCost": 11600,
+  "skills": [
+    {
+      "id": "competitive-ads-extractor",
+      "name": "Competitive Ads Extractor",
+      "description": "Extracts and analyzes competitors' ads from ad libraries to understand messaging and creative approaches that resonate.",
+      "path": "./competitive-ads-extractor",
+      "tokenCost": 2500,
+      "mcpPotential": "high",
+      "mcpServerName": "ads-library-mcp",
+      "externalAPIs": ["Facebook Ads Library", "Meta Graph API"],
+      "priority": "P1",
+      "useCases": ["competitor-research", "ad-trend-monitoring", "market-intelligence"],
+      "tags": ["competitive-analysis", "ads", "marketing", "facebook", "meta"]
+    },
+    {
+      "id": "lead-research-assistant",
+      "name": "Lead Research Assistant",
+      "description": "Identifies and qualifies high-quality leads by analyzing your product, searching for target companies, and providing actionable outreach strategies.",
+      "path": "./lead-research-assistant",
+      "tokenCost": 3100,
+      "mcpPotential": "high",
+      "mcpServerName": "linkedin-scraper-mcp",
+      "externalAPIs": ["LinkedIn", "Web Search", "Company Databases"],
+      "priority": "P1",
+      "useCases": ["sales-prospecting", "lead-qualification", "market-research"],
+      "tags": ["sales", "leads", "prospecting", "research", "linkedin"]
+    },
+    {
+      "id": "brand-guidelines",
+      "name": "Brand Guidelines",
+      "description": "Applies Anthropic's official brand colors and typography to artifacts for consistent visual identity and professional design standards.",
+      "path": "./brand-guidelines",
+      "tokenCost": 1200,
+      "mcpPotential": "low",
+      "priority": "P4",
+      "useCases": ["brand-consistency", "artifact-styling", "professional-design"],
+      "tags": ["branding", "design", "typography", "colors", "anthropic"]
+    },
+    {
+      "id": "domain-name-brainstormer",
+      "name": "Domain Name Brainstormer",
+      "description": "Generates creative domain name ideas and checks availability across multiple TLDs including .com, .io, .dev, and .ai extensions.",
+      "path": "./domain-name-brainstormer",
+      "tokenCost": 1800,
+      "mcpPotential": "medium",
+      "mcpServerName": "domain-check-mcp",
+      "externalAPIs": ["Domain Registrars", "WHOIS"],
+      "priority": "P2",
+      "useCases": ["startup-naming", "brand-domains", "domain-search"],
+      "tags": ["domain", "naming", "branding", "tld", "availability"]
+    },
+    {
+      "id": "internal-comms",
+      "name": "Internal Communications",
+      "description": "Helps write internal communications including 3P updates, company newsletters, FAQs, status reports, and project updates using company-specific formats.",
+      "path": "./internal-comms",
+      "tokenCost": 2000,
+      "mcpPotential": "low",
+      "priority": "P4",
+      "useCases": ["company-newsletters", "status-reports", "internal-faqs"],
+      "tags": ["communications", "newsletter", "company", "internal", "updates"]
+    }
+  ],
+  "mcpServers": [
+    {
+      "name": "ads-library-mcp",
+      "sourceSkill": "competitive-ads-extractor",
+      "priority": "P1",
+      "estimatedDevTime": "8-12 hours",
+      "tools": ["search_ads", "get_ad_details", "analyze_campaign", "export_ads"]
+    },
+    {
+      "name": "linkedin-scraper-mcp",
+      "sourceSkill": "lead-research-assistant",
+      "priority": "P1",
+      "estimatedDevTime": "12-16 hours",
+      "tools": ["find_companies", "get_company_profile", "search_people", "qualify_lead"]
+    },
+    {
+      "name": "domain-check-mcp",
+      "sourceSkill": "domain-name-brainstormer",
+      "priority": "P2",
+      "estimatedDevTime": "4-6 hours",
+      "tools": ["check_availability", "suggest_domains", "get_pricing", "whois_lookup"]
+    }
+  ]
+}
