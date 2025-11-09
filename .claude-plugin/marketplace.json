@@ -39,6 +39,12 @@
       "category": "business-marketing"
     },
     {
+      "name": "recruiter-assistant",
+      "description": "Parses résumé text and job requirements to generate candidate summaries, skills extraction, experience analysis, and job fit scoring (0-100) for efficient candidate screening.",
+      "source": "./recruiter-assistant",
+      "category": "business-marketing"
+    },
+    {
       "name": "content-research-writer",
       "description": "Assists in writing high-quality content by conducting research, adding citations, improving hooks, and providing section-by-section feedback.",
       "source": "./content-research-writer",
@@ -87,6 +93,12 @@
       "category": "creative-media"
     },
     {
+      "name": "ai-prompt-optimizer",
+      "description": "Analyzes and refines user prompts for AI interactions, providing actionable feedback on clarity, conciseness, tone, and effectiveness to maximize response quality.",
+      "source": "./ai-prompt-optimizer",
+      "category": "development"
+    },
+    {
       "name": "artifacts-builder",
       "description": "Builds elaborate, multi-component Claude.ai HTML artifacts using modern frontend technologies including React, Tailwind CSS, and shadcn/ui.",
       "source": "./artifacts-builder",
@@ -102,6 +114,12 @@
       "name": "mcp-builder",
       "description": "Guides creation of high-quality MCP (Model Context Protocol) servers for integrating external APIs and services with LLMs using Python or TypeScript.",
       "source": "./mcp-builder",
+      "category": "development"
+    },
+    {
+      "name": "security-scanner",
+      "description": "Scans JavaScript and Python source code for common security vulnerabilities including insecure patterns (eval, exec), weak cryptography, hardcoded credentials, and injection risks with severity ratings.",
+      "source": "./security-scanner",
       "category": "development"
     },
     {
