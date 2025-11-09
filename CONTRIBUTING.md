@@ -139,6 +139,51 @@ Your PR should:
 - Write clear, accessible documentation
 - Test your skills before submitting
 
+## Testing Your Skills
+
+### Running Tests Locally
+
+Before submitting your PR, validate your skill:
+
+```bash
+# Validate SKILL.md frontmatter
+python3 .github/workflows/scripts/validate_skills.py
+
+# Check Python code formatting (if applicable)
+pip install black flake8
+black --check .
+flake8 . --exclude=.git,.claude-tmp,node_modules
+
+# Run security scan
+pip install bandit
+bandit -r your-skill-name/ -f json
+```
+
+### Continuous Integration
+
+All pull requests automatically run:
+
+1. **Skill Validation**: Checks SKILL.md frontmatter format
+2. **Security Scan**: Scans for vulnerabilities with Bandit
+3. **Linting**: Validates Python and YAML formatting
+4. **Documentation Check**: Ensures README and LICENSE files exist
+
+### Manual Testing Checklist
+
+Before submitting, test your skill on:
+
+- [ ] **Claude.ai** - Upload SKILL.md via skill marketplace
+- [ ] **Claude Code** - Place in `~/.config/claude-code/skills/`
+- [ ] **Claude API** (if applicable) - Test via API integration
+
+### Test Coverage
+
+If your skill includes Python scripts or tools:
+
+1. Add unit tests in `tests/` directory
+2. Use pytest for testing: `pip install pytest && pytest tests/`
+3. Aim for >80% code coverage
+
 ## Questions?
 
 Open an issue if you have questions about contributing or need help structuring your skill.
