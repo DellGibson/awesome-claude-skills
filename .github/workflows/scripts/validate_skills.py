@@ -6,19 +6,21 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+
 def extract_frontmatter(content: str) -> Tuple[Dict[str, str], bool]:
     """Extract YAML frontmatter from SKILL.md content."""
-    match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+    match = re.match(r"^---\s*\n(.*?)\n---\s*\n", content, re.DOTALL)
     if not match:
         return {}, False
 
     frontmatter = {}
-    for line in match.group(1).split('\n'):
-        if ':' in line:
-            key, value = line.split(':', 1)
+    for line in match.group(1).split("\n"):
+        if ":" in line:
+            key, value = line.split(":", 1)
             frontmatter[key.strip()] = value.strip()
 
     return frontmatter, True
+
 
 def validate_skill(skill_path: Path) -> List[str]:
     """Validate a single SKILL.md file."""
@@ -29,7 +31,7 @@ def validate_skill(skill_path: Path) -> List[str]:
         return [f"Missing SKILL.md in {skill_path.name}"]
 
     try:
-        content = skill_md.read_text(encoding='utf-8')
+        content = skill_md.read_text(encoding="utf-8")
     except Exception as e:
         return [f"Error reading {skill_path.name}/SKILL.md: {e}"]
 
@@ -40,7 +42,7 @@ def validate_skill(skill_path: Path) -> List[str]:
         return errors
 
     # Required fields
-    required_fields = ['name', 'description']
+    required_fields = ["name", "description"]
     for field in required_fields:
         if field not in frontmatter:
             errors.append(f"{skill_path.name}: Missing required field '{field}'")
@@ -48,29 +50,28 @@ def validate_skill(skill_path: Path) -> List[str]:
             errors.append(f"{skill_path.name}: Empty value for '{field}'")
 
     # Validate name format (lowercase with hyphens)
-    if 'name' in frontmatter:
-        name = frontmatter['name']
-        if not re.match(r'^[a-z0-9-]+$', name):
+    if "name" in frontmatter:
+        name = frontmatter["name"]
+        if not re.match(r"^[a-z0-9-]+$", name):
             errors.append(
                 f"{skill_path.name}: Invalid name format '{name}' "
                 "(should be lowercase with hyphens)"
             )
 
     # Check description length
-    if 'description' in frontmatter:
-        desc = frontmatter['description']
+    if "description" in frontmatter:
+        desc = frontmatter["description"]
         if len(desc) < 20:
             errors.append(
-                f"{skill_path.name}: Description too short "
-                f"({len(desc)} chars, min 20)"
+                f"{skill_path.name}: Description too short " f"({len(desc)} chars, min 20)"
             )
         if len(desc) > 500:
             errors.append(
-                f"{skill_path.name}: Description too long "
-                f"({len(desc)} chars, max 500)"
+                f"{skill_path.name}: Description too long " f"({len(desc)} chars, max 500)"
             )
 
     return errors
+
 
 def main():
     """Validate all skills in the repository."""
@@ -82,7 +83,7 @@ def main():
     # Find all skill directories
     skill_dirs = []
     for item in repo_root.iterdir():
-        if item.is_dir() and not item.name.startswith('.'):
+        if item.is_dir() and not item.name.startswith("."):
             if (item / "SKILL.md").exists():
                 skill_dirs.append(item)
 
@@ -118,6 +119,7 @@ def main():
     else:
         print("✅ All skills validated successfully!")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
