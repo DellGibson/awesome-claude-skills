@@ -153,6 +153,12 @@
       "category": "development"
     },
     {
+      "name": "kubernetes-manifest-generator",
+      "description": "Generates production-ready Kubernetes YAML manifests including Deployments, Services, ConfigMaps, Secrets, Ingress, and HPA configurations for container orchestration.",
+      "source": "./kubernetes-manifest-generator",
+      "category": "development"
+    },
+    {
       "name": "mcp-builder",
       "description": "Guides creation of high-quality MCP (Model Context Protocol) servers for integrating external APIs and services with LLMs using Python or TypeScript.",
       "source": "./mcp-builder",

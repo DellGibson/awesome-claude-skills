@@ -80,6 +80,7 @@ Quick reference table of all available skills:
 | [Code Refactoring Assistant](./code-refactoring-assistant/) | Development & Code Tools | `code-refactoring-assistant/SKILL.md` | ✓ Active |
 | [Database Schema Designer](./database-schema-designer/) | Development & Code Tools | `database-schema-designer/SKILL.md` | ✓ Active |
 | [Docker Compose Builder](./docker-compose-builder/) | Development & Code Tools | `docker-compose-builder/SKILL.md` | ✓ Active |
+| [Kubernetes Manifest Generator](./kubernetes-manifest-generator/) | Development & Code Tools | `kubernetes-manifest-generator/SKILL.md` | ✓ Active |
 | [Mcp Builder](./mcp-builder/) | Development & Code Tools | `mcp-builder/SKILL.md` | ✓ Active |
 | [Log Analyzer Debugger](./log-analyzer-debugger/) | Development & Code Tools | `log-analyzer-debugger/SKILL.md` | ✓ Active |
 | [Performance Profiler Optimizer](./performance-profiler-optimizer/) | Development & Code Tools | `performance-profiler-optimizer/SKILL.md` | ✓ Active |
