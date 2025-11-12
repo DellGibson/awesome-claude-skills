@@ -1,0 +1,8 @@
+{
+  "enabledMcpjsonServers": [
+    "gemini",
+    "notion",
+    "notion-custom"
+  ],
+  "enableAllProjectMcpServers": true
+}
