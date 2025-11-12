@@ -1,0 +1,194 @@
+{
+  "name": "api-documentation-generator",
+  "version": "1.0.0",
+  "description": "Automatically generates comprehensive API documentation from source code including OpenAPI/Swagger specifications, interactive docs, and example requests for REST APIs",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["code", "framework"],
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "API source code containing route definitions and handlers"
+      },
+      "framework": {
+        "type": "string",
+        "enum": ["express", "fastapi", "flask", "django", "nestjs", "auto"],
+        "description": "Backend framework used (or 'auto' for automatic detection)",
+        "default": "auto"
+      },
+      "outputFormats": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["openapi-json", "openapi-yaml", "markdown", "postman", "html"]
+        },
+        "description": "Desired output formats for documentation",
+        "default": ["openapi-yaml", "markdown"]
+      },
+      "apiTitle": {
+        "type": "string",
+        "description": "Title for the API documentation",
+        "default": "API Documentation"
+      },
+      "apiVersion": {
+        "type": "string",
+        "description": "API version number",
+        "default": "1.0.0"
+      },
+      "baseUrl": {
+        "type": "string",
+        "description": "Base URL for API endpoints (e.g., https://api.example.com)",
+        "default": "https://api.example.com"
+      },
+      "includeExamples": {
+        "type": "boolean",
+        "description": "Include curl command examples in documentation",
+        "default": true
+      },
+      "authType": {
+        "type": "string",
+        "enum": ["none", "bearer", "apikey", "oauth2", "basic"],
+        "description": "Authentication type used by the API",
+        "default": "bearer"
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "required": ["endpoints", "documentation"],
+    "properties": {
+      "endpoints": {
+        "type": "array",
+        "description": "List of detected API endpoints",
+        "items": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"]
+            },
+            "path": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "in": {"type": "string", "enum": ["path", "query", "header", "cookie"]},
+                  "required": {"type": "boolean"},
+                  "type": {"type": "string"}
+                }
+              }
+            },
+            "requestBody": {
+              "type": "object"
+            },
+            "responses": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "documentation": {
+        "type": "object",
+        "properties": {
+          "openapi": {
+            "type": "string",
+            "description": "OpenAPI 3.0 specification in YAML or JSON format"
+          },
+          "markdown": {
+            "type": "string",
+            "description": "Markdown-formatted API reference documentation"
+          },
+          "postman": {
+            "type": "object",
+            "description": "Postman collection JSON"
+          },
+          "html": {
+            "type": "string",
+            "description": "Interactive HTML documentation (Swagger UI or ReDoc)"
+          }
+        }
+      },
+      "statistics": {
+        "type": "object",
+        "properties": {
+          "totalEndpoints": {
+            "type": "integer"
+          },
+          "endpointsByMethod": {
+            "type": "object"
+          },
+          "authenticatedEndpoints": {
+            "type": "integer"
+          },
+          "documentedParameters": {
+            "type": "integer"
+          }
+        }
+      },
+      "warnings": {
+        "type": "array",
+        "description": "Warnings about missing documentation or potential issues",
+        "items": {
+          "type": "object",
+          "properties": {
+            "endpoint": {"type": "string"},
+            "severity": {"type": "string", "enum": ["low", "medium", "high"]},
+            "message": {"type": "string"}
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "app.get('/api/users/:id', async (req, res) => { const user = await db.users.findById(req.params.id); res.json(user); });",
+        "framework": "express",
+        "outputFormats": ["openapi-yaml", "markdown"],
+        "apiTitle": "User Management API",
+        "baseUrl": "https://api.example.com",
+        "authType": "bearer"
+      },
+      "output": {
+        "endpoints": [
+          {
+            "method": "GET",
+            "path": "/api/users/{id}",
+            "summary": "Get user by ID",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "User object"
+              }
+            }
+          }
+        ],
+        "statistics": {
+          "totalEndpoints": 1,
+          "endpointsByMethod": {
+            "GET": 1
+          },
+          "authenticatedEndpoints": 1,
+          "documentedParameters": 1
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "name": "kubernetes-manifest-generator",
+  "version": "1.0.0",
+  "description": "Generates production-ready Kubernetes YAML manifests including Deployments, Services, ConfigMaps, Secrets, Ingress, and HPA configurations for container orchestration",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["appName", "image", "port"],
+    "properties": {
+      "appName": {
+        "type": "string",
+        "description": "Application name (used for resource naming and labels)"
+      },
+      "image": {
+        "type": "string",
+        "description": "Container image (e.g., 'nginx:1.21' or 'myregistry/app:v1.0.0')"
+      },
+      "port": {
+        "type": "integer",
+        "description": "Application port number",
+        "minimum": 1,
+        "maximum": 65535
+      },
+      "environment": {
+        "type": "string",
+        "enum": ["dev", "staging", "production"],
+        "description": "Target environment (affects resource limits and replica count)",
+        "default": "dev"
+      },
+      "namespace": {
+        "type": "string",
+        "description": "Kubernetes namespace",
+        "default": "default"
+      },
+      "replicas": {
+        "type": "integer",
+        "description": "Number of pod replicas (overrides environment default)",
+        "minimum": 1,
+        "maximum": 100
+      },
+      "serviceType": {
+        "type": "string",
+        "enum": ["ClusterIP", "NodePort", "LoadBalancer"],
+        "description": "Kubernetes Service type",
+        "default": "ClusterIP"
+      },
+      "enableIngress": {
+        "type": "boolean",
+        "description": "Generate Ingress resource for HTTP/HTTPS routing",
+        "default": false
+      },
+      "ingressHost": {
+        "type": "string",
+        "description": "Ingress hostname (e.g., 'api.example.com')"
+      },
+      "enableTLS": {
+        "type": "boolean",
+        "description": "Enable TLS/HTTPS for Ingress",
+        "default": true
+      },
+      "enableAutoscaling": {
+        "type": "boolean",
+        "description": "Generate Horizontal Pod Autoscaler (HPA)",
+        "default": false
+      },
+      "minReplicas": {
+        "type": "integer",
+        "description": "Minimum replicas for HPA",
+        "default": 2
+      },
+      "maxReplicas": {
+        "type": "integer",
+        "description": "Maximum replicas for HPA",
+        "default": 10
+      },
+      "envVars": {
+        "type": "object",
+        "description": "Environment variables as key-value pairs",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "secrets": {
+        "type": "object",
+        "description": "Secret values as key-value pairs (will be base64 encoded)",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "healthCheckPath": {
+        "type": "string",
+        "description": "HTTP path for health checks (e.g., '/health')",
+        "default": "/health"
+      },
+      "readinessCheckPath": {
+        "type": "string",
+        "description": "HTTP path for readiness checks (e.g., '/ready')",
+        "default": "/ready"
+      },
+      "resources": {
+        "type": "object",
+        "description": "Custom resource requests and limits (overrides environment defaults)",
+        "properties": {
+          "requests": {
+            "type": "object",
+            "properties": {
+              "cpu": {"type": "string", "description": "CPU request (e.g., '100m', '1')"},
+              "memory": {"type": "string", "description": "Memory request (e.g., '256Mi', '1Gi')"}
+            }
+          },
+          "limits": {
+            "type": "object",
+            "properties": {
+              "cpu": {"type": "string", "description": "CPU limit (e.g., '500m', '2')"},
+              "memory": {"type": "string", "description": "Memory limit (e.g., '512Mi', '2Gi')"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "required": ["manifests", "summary"],
+    "properties": {
+      "manifests": {
+        "type": "object",
+        "description": "Generated Kubernetes manifests",
+        "properties": {
+          "deployment": {
+            "type": "string",
+            "description": "Deployment YAML manifest"
+          },
+          "service": {
+            "type": "string",
+            "description": "Service YAML manifest"
+          },
+          "configMap": {
+            "type": "string",
+            "description": "ConfigMap YAML manifest (if envVars provided)"
+          },
+          "secret": {
+            "type": "string",
+            "description": "Secret YAML manifest (if secrets provided)"
+          },
+          "ingress": {
+            "type": "string",
+            "description": "Ingress YAML manifest (if enabled)"
+          },
+          "hpa": {
+            "type": "string",
+            "description": "HorizontalPodAutoscaler YAML manifest (if enabled)"
+          }
+        }
+      },
+      "summary": {
+        "type": "object",
+        "properties": {
+          "appName": {"type": "string"},
+          "environment": {"type": "string"},
+          "namespace": {"type": "string"},
+          "replicas": {"type": "integer"},
+          "resourcesGenerated": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "estimatedCost": {
+            "type": "string",
+            "description": "Estimated monthly cost range (rough approximation)"
+          }
+        }
+      },
+      "deploymentCommands": {
+        "type": "array",
+        "description": "kubectl commands to deploy the application",
+        "items": {
+          "type": "object",
+          "properties": {
+            "description": {"type": "string"},
+            "command": {"type": "string"}
+          }
+        }
+      },
+      "bestPractices": {
+        "type": "array",
+        "description": "Best practice recommendations and security considerations",
+        "items": {
+          "type": "object",
+          "properties": {
+            "category": {"type": "string"},
+            "recommendation": {"type": "string"},
+            "implemented": {"type": "boolean"}
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "appName": "web-api",
+        "image": "myregistry/web-api:1.0.0",
+        "port": 3000,
+        "environment": "production",
+        "namespace": "production",
+        "serviceType": "ClusterIP",
+        "enableIngress": true,
+        "ingressHost": "api.example.com",
+        "enableTLS": true,
+        "enableAutoscaling": true,
+        "minReplicas": 3,
+        "maxReplicas": 10,
+        "envVars": {
+          "NODE_ENV": "production",
+          "LOG_LEVEL": "info"
+        },
+        "secrets": {
+          "DATABASE_PASSWORD": "secretpassword",
+          "API_KEY": "secret-api-key"
+        },
+        "healthCheckPath": "/health",
+        "readinessCheckPath": "/ready"
+      },
+      "output": {
+        "summary": {
+          "appName": "web-api",
+          "environment": "production",
+          "namespace": "production",
+          "replicas": 3,
+          "resourcesGenerated": [
+            "Deployment",
+            "Service",
+            "ConfigMap",
+            "Secret",
+            "Ingress",
+            "HorizontalPodAutoscaler"
+          ],
+          "estimatedCost": "$50-150/month (depending on cloud provider and region)"
+        }
+      }
+    }
+  ]
+}

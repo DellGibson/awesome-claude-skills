@@ -1,0 +1,150 @@
+{
+  "name": "recruiter-assistant",
+  "version": "1.0.0",
+  "description": "Automated résumé analysis and candidate-job fit scoring for recruitment",
+  "author": "Awesome Claude Skills",
+  "license": "Apache-2.0",
+  "category": "business-marketing",
+  "tags": ["recruitment", "HR", "hiring", "ATS", "candidate-screening", "résumé-parsing"],
+  "input": {
+    "type": "object",
+    "properties": {
+      "resumeText": {
+        "type": "string",
+        "description": "The candidate's résumé in plain text format",
+        "required": true
+      },
+      "jobRequirements": {
+        "type": "object",
+        "properties": {
+          "requiredSkills": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Must-have skills for the position"
+          },
+          "preferredSkills": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Nice-to-have skills"
+          },
+          "minYearsExperience": {
+            "type": "number",
+            "description": "Minimum years of relevant experience required"
+          },
+          "educationLevel": {
+            "type": "string",
+            "enum": ["High School", "Associate", "Bachelor", "Master", "PhD"],
+            "description": "Minimum education level required"
+          },
+          "location": {
+            "type": "string",
+            "description": "Required or preferred location"
+          }
+        },
+        "required": true
+      },
+      "roleTitle": {
+        "type": "string",
+        "description": "Title of the position being filled",
+        "required": false
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "candidateInfo": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "email": {"type": "string"},
+          "phone": {"type": "string"},
+          "location": {"type": "string"}
+        }
+      },
+      "overallFitScore": {
+        "type": "number",
+        "description": "Overall job fit score (0-100)",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "scoreBreakdown": {
+        "type": "object",
+        "properties": {
+          "skillsMatch": {"type": "number"},
+          "experienceRelevance": {"type": "number"},
+          "educationMatch": {"type": "number"},
+          "yearsExperience": {"type": "number"}
+        }
+      },
+      "extractedSkills": {
+        "type": "array",
+        "description": "Technical and soft skills found in résumé",
+        "items": {"type": "string"}
+      },
+      "yearsOfExperience": {
+        "type": "number",
+        "description": "Total years of professional experience"
+      },
+      "education": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "degree": {"type": "string"},
+            "institution": {"type": "string"},
+            "year": {"type": "number"}
+          }
+        }
+      },
+      "gaps": {
+        "type": "array",
+        "description": "Missing required qualifications",
+        "items": {"type": "string"}
+      },
+      "strengths": {
+        "type": "array",
+        "description": "Standout qualifications",
+        "items": {"type": "string"}
+      },
+      "recommendation": {
+        "type": "string",
+        "enum": ["STRONG_HIRE", "INTERVIEW", "MAYBE", "PASS"],
+        "description": "Hiring recommendation"
+      },
+      "summary": {
+        "type": "string",
+        "description": "2-3 sentence candidate summary"
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "resumeText": "John Doe\nSoftware Engineer with 5 years Python experience...",
+        "jobRequirements": {
+          "requiredSkills": ["Python", "Django", "PostgreSQL"],
+          "preferredSkills": ["Docker", "AWS"],
+          "minYearsExperience": 3,
+          "educationLevel": "Bachelor"
+        },
+        "roleTitle": "Senior Backend Engineer"
+      },
+      "output": {
+        "overallFitScore": 88,
+        "scoreBreakdown": {
+          "skillsMatch": 95,
+          "experienceRelevance": 90,
+          "educationMatch": 100,
+          "yearsExperience": 100
+        },
+        "recommendation": "STRONG_HIRE",
+        "summary": "Experienced Python engineer with 5 years backend development. Strong Django and PostgreSQL skills. Exceeds experience requirements."
+      }
+    }
+  ],
+  "requirements": {
+    "platforms": ["claude.ai", "claude-code", "claude-api"],
+    "minClaudeVersion": "3.0"
+  }
+}

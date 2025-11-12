@@ -1,0 +1,133 @@
+{
+  "name": "ai-prompt-optimizer",
+  "version": "1.0.0",
+  "description": "Analyzes and refines user prompts for AI interactions with graded feedback",
+  "author": "Awesome Claude Skills",
+  "license": "Apache-2.0",
+  "category": "development",
+  "tags": ["prompt-engineering", "AI", "optimization", "analysis", "quality"],
+  "input": {
+    "type": "object",
+    "properties": {
+      "prompt": {
+        "type": "string",
+        "description": "The prompt text to analyze and optimize",
+        "required": true
+      },
+      "focusAreas": {
+        "type": "array",
+        "description": "Specific areas to focus on (clarity, conciseness, tone, specificity, context)",
+        "items": {
+          "type": "string",
+          "enum": ["clarity", "conciseness", "tone", "specificity", "context"]
+        },
+        "required": false
+      },
+      "targetAudience": {
+        "type": "string",
+        "description": "Intended audience for the prompt (technical, general, academic, creative)",
+        "enum": ["technical", "general", "academic", "creative"],
+        "required": false
+      },
+      "detailLevel": {
+        "type": "string",
+        "description": "Level of analysis detail",
+        "enum": ["brief", "standard", "comprehensive"],
+        "default": "standard",
+        "required": false
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "overallScore": {
+        "type": "number",
+        "description": "Overall effectiveness score (0-100)",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "scores": {
+        "type": "object",
+        "properties": {
+          "clarity": {"type": "number", "minimum": 0, "maximum": 100},
+          "conciseness": {"type": "number", "minimum": 0, "maximum": 100},
+          "tone": {"type": "number", "minimum": 0, "maximum": 100},
+          "specificity": {"type": "number", "minimum": 0, "maximum": 100},
+          "context": {"type": "number", "minimum": 0, "maximum": 100}
+        }
+      },
+      "issues": {
+        "type": "array",
+        "description": "List of identified issues",
+        "items": {
+          "type": "object",
+          "properties": {
+            "severity": {"type": "string", "enum": ["critical", "warning", "info"]},
+            "category": {"type": "string"},
+            "message": {"type": "string"},
+            "suggestion": {"type": "string"}
+          }
+        }
+      },
+      "refinedPrompt": {
+        "type": "string",
+        "description": "Optimized version of the input prompt"
+      },
+      "improvements": {
+        "type": "array",
+        "description": "List of key improvements made",
+        "items": {"type": "string"}
+      },
+      "scoreImprovement": {
+        "type": "number",
+        "description": "Points gained from original to refined (+/- 100)"
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "prompt": "Can you help me write some code?",
+        "detailLevel": "standard"
+      },
+      "output": {
+        "overallScore": 32,
+        "scores": {
+          "clarity": 35,
+          "conciseness": 90,
+          "tone": 80,
+          "specificity": 10,
+          "context": 5
+        },
+        "issues": [
+          {
+            "severity": "critical",
+            "category": "specificity",
+            "message": "No programming language specified",
+            "suggestion": "Specify the language (Python, JavaScript, etc.)"
+          },
+          {
+            "severity": "critical",
+            "category": "context",
+            "message": "No description of what the code should do",
+            "suggestion": "Describe the functionality, inputs, and expected outputs"
+          }
+        ],
+        "refinedPrompt": "Write a Python function that validates email addresses using regex, accepts a string as input, and returns True if valid or False if invalid. Include error handling for None values.",
+        "improvements": [
+          "Specified programming language (Python)",
+          "Defined functionality (email validation)",
+          "Added implementation detail (using regex)",
+          "Specified input/output behavior",
+          "Included edge case handling"
+        ],
+        "scoreImprovement": 63
+      }
+    }
+  ],
+  "requirements": {
+    "platforms": ["claude.ai", "claude-code", "claude-api"],
+    "minClaudeVersion": "3.0"
+  }
+}

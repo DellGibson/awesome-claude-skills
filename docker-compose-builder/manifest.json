@@ -1,0 +1,226 @@
+{
+  "name": "docker-compose-builder",
+  "version": "1.0.0",
+  "description": "Generates production-ready docker-compose.yml files from project descriptions with support for Node.js, Python, Go, and Rust stacks including Dockerfiles, volume configs, and networking",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["projectDescription", "techStack"],
+    "properties": {
+      "projectDescription": {
+        "type": "string",
+        "description": "Description of the project and its architecture"
+      },
+      "techStack": {
+        "type": "object",
+        "required": ["language"],
+        "properties": {
+          "language": {
+            "type": "string",
+            "enum": ["nodejs", "python", "go", "rust"],
+            "description": "Primary programming language"
+          },
+          "framework": {
+            "type": "string",
+            "description": "Web framework (express, fastapi, gin, actix, etc.)",
+            "default": ""
+          },
+          "version": {
+            "type": "string",
+            "description": "Language version (e.g., '20' for Node.js, '3.11' for Python)",
+            "default": "latest"
+          }
+        }
+      },
+      "services": {
+        "type": "array",
+        "description": "Additional services to include (databases, cache, etc.)",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "enum": ["postgres", "mysql", "mongodb", "redis", "nginx", "rabbitmq", "elasticsearch"]
+            },
+            "version": {
+              "type": "string",
+              "default": "latest"
+            },
+            "port": {
+              "type": "integer"
+            }
+          }
+        },
+        "default": []
+      },
+      "environment": {
+        "type": "string",
+        "enum": ["development", "production", "both"],
+        "description": "Target environment for configuration",
+        "default": "development"
+      },
+      "ports": {
+        "type": "object",
+        "description": "Port mappings for the application",
+        "properties": {
+          "app": {
+            "type": "integer",
+            "default": 3000
+          }
+        },
+        "default": {"app": 3000}
+      },
+      "volumes": {
+        "type": "boolean",
+        "description": "Include persistent volume configurations",
+        "default": true
+      },
+      "healthChecks": {
+        "type": "boolean",
+        "description": "Add health check configurations for services",
+        "default": true
+      },
+      "multiStage": {
+        "type": "boolean",
+        "description": "Use multi-stage builds in Dockerfile",
+        "default": true
+      },
+      "includeNginx": {
+        "type": "boolean",
+        "description": "Add Nginx as reverse proxy",
+        "default": false
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "required": ["dockerCompose", "dockerfile"],
+    "properties": {
+      "dockerCompose": {
+        "type": "string",
+        "description": "Complete docker-compose.yml content"
+      },
+      "dockerfile": {
+        "type": "string",
+        "description": "Optimized Dockerfile content"
+      },
+      "dockerignore": {
+        "type": "string",
+        "description": "Content for .dockerignore file"
+      },
+      "envExample": {
+        "type": "string",
+        "description": "Template .env.example file"
+      },
+      "commands": {
+        "type": "object",
+        "description": "Useful Docker commands for this setup",
+        "properties": {
+          "build": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string"
+          },
+          "stop": {
+            "type": "string"
+          },
+          "logs": {
+            "type": "string"
+          },
+          "shell": {
+            "type": "string"
+          }
+        }
+      },
+      "services": {
+        "type": "array",
+        "description": "List of all configured services",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "ports": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "volumes": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      },
+      "documentation": {
+        "type": "string",
+        "description": "Markdown documentation for using the generated setup"
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "projectDescription": "Express.js REST API with PostgreSQL database and Redis caching",
+        "techStack": {
+          "language": "nodejs",
+          "framework": "express",
+          "version": "20"
+        },
+        "services": [
+          {
+            "name": "postgres",
+            "version": "15",
+            "port": 5432
+          },
+          {
+            "name": "redis",
+            "version": "7",
+            "port": 6379
+          }
+        ],
+        "environment": "development",
+        "ports": {
+          "app": 3000
+        },
+        "healthChecks": true,
+        "multiStage": true
+      },
+      "output": {
+        "services": [
+          {
+            "name": "app",
+            "image": "node:20-alpine",
+            "ports": ["3000:3000"],
+            "volumes": [".:/app", "/app/node_modules"]
+          },
+          {
+            "name": "db",
+            "image": "postgres:15-alpine",
+            "ports": ["5432:5432"],
+            "volumes": ["postgres_data:/var/lib/postgresql/data"]
+          },
+          {
+            "name": "cache",
+            "image": "redis:7-alpine",
+            "ports": ["6379:6379"],
+            "volumes": ["redis_data:/data"]
+          }
+        ],
+        "commands": {
+          "build": "docker-compose build",
+          "start": "docker-compose up -d",
+          "stop": "docker-compose down",
+          "logs": "docker-compose logs -f",
+          "shell": "docker-compose exec app sh"
+        }
+      }
+    }
+  ]
+}

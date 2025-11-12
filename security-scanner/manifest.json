@@ -1,0 +1,123 @@
+{
+  "name": "security-scanner",
+  "version": "1.0.0",
+  "description": "Static analysis security scanner for JavaScript and Python code",
+  "author": "Awesome Claude Skills",
+  "license": "Apache-2.0",
+  "category": "development",
+  "tags": ["security", "SAST", "vulnerability-scanning", "code-analysis", "DevSecOps"],
+  "input": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "Source code to scan for security vulnerabilities",
+        "required": true
+      },
+      "language": {
+        "type": "string",
+        "enum": ["javascript", "python", "auto"],
+        "description": "Programming language of the code",
+        "default": "auto",
+        "required": false
+      },
+      "severityThreshold": {
+        "type": "string",
+        "enum": ["low", "medium", "high", "critical"],
+        "description": "Minimum severity level to report",
+        "default": "low",
+        "required": false
+      },
+      "focusAreas": {
+        "type": "array",
+        "description": "Specific vulnerability types to check",
+        "items": {
+          "type": "string",
+          "enum": ["injection", "crypto", "secrets", "xss", "all"]
+        },
+        "default": ["all"],
+        "required": false
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "securityScore": {
+        "type": "number",
+        "description": "Overall security score (0-100)",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "totalIssues": {
+        "type": "number",
+        "description": "Total number of security issues found"
+      },
+      "issuesBySeverity": {
+        "type": "object",
+        "properties": {
+          "critical": {"type": "number"},
+          "high": {"type": "number"},
+          "medium": {"type": "number"},
+          "low": {"type": "number"}
+        }
+      },
+      "findings": {
+        "type": "array",
+        "description": "List of security vulnerabilities found",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string"},
+            "title": {"type": "string"},
+            "severity": {"type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]},
+            "category": {"type": "string"},
+            "lineNumber": {"type": "number"},
+            "code": {"type": "string"},
+            "description": {"type": "string"},
+            "impact": {"type": "string"},
+            "remediation": {"type": "string"},
+            "cwe": {"type": "string"}
+          }
+        }
+      },
+      "riskLevel": {
+        "type": "string",
+        "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "SAFE"],
+        "description": "Overall risk assessment"
+      },
+      "recommendations": {
+        "type": "array",
+        "description": "Prioritized list of recommended actions",
+        "items": {"type": "string"}
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "password = 'admin123'\nquery = f\"SELECT * FROM users WHERE id={user_id}\"",
+        "language": "python"
+      },
+      "output": {
+        "securityScore": 40,
+        "totalIssues": 2,
+        "issuesBySeverity": {
+          "critical": 2,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "riskLevel": "CRITICAL",
+        "recommendations": [
+          "Remove hardcoded password (Line 1)",
+          "Use parameterized SQL queries (Line 2)"
+        ]
+      }
+    }
+  ],
+  "requirements": {
+    "platforms": ["claude.ai", "claude-code", "claude-api"],
+    "minClaudeVersion": "3.0"
+  }
+}

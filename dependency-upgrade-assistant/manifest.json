@@ -1,0 +1,62 @@
+{
+  "name": "dependency-upgrade-assistant",
+  "version": "1.0.0",
+  "description": "Checks for outdated dependencies and security vulnerabilities with upgrade recommendations",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "productivity-organization",
+  "inputSchema": {
+    "type": "object",
+    "required": ["dependencyFile"],
+    "properties": {
+      "dependencyFile": {"type": "string", "description": "Contents of package.json, requirements.txt, or Cargo.toml"},
+      "fileType": {"type": "string", "enum": ["package.json", "requirements.txt", "Cargo.toml", "auto"], "default": "auto"},
+      "includeSecurityScan": {"type": "boolean", "default": true},
+      "includeMigrationGuide": {"type": "boolean", "default": true}
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "outdated": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "package": {"type": "string"},
+            "current": {"type": "string"},
+            "latest": {"type": "string"},
+            "updateType": {"type": "string", "enum": ["major", "minor", "patch"]},
+            "hasCVE": {"type": "boolean"},
+            "cves": {"type": "array", "items": {"type": "string"}},
+            "breakingChanges": {"type": "boolean"}
+          }
+        }
+      },
+      "upgradeStrategy": {
+        "type": "object",
+        "properties": {
+          "immediate": {"type": "array", "items": {"type": "string"}},
+          "lowRisk": {"type": "array", "items": {"type": "string"}},
+          "reviewRequired": {"type": "array", "items": {"type": "string"}}
+        }
+      },
+      "migrationGuide": {"type": "string"},
+      "totalVulnerabilities": {"type": "integer"}
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "dependencyFile": "{\"dependencies\": {\"lodash\": \"4.17.20\", \"react\": \"17.0.2\"}}",
+        "fileType": "package.json"
+      },
+      "output": {
+        "outdated": [
+          {"package": "lodash", "current": "4.17.20", "latest": "4.17.21", "updateType": "patch", "hasCVE": true}
+        ],
+        "totalVulnerabilities": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "name": "log-analyzer-debugger",
+  "version": "1.0.0",
+  "description": "Analyzes log files and stack traces to detect error patterns, anomalies, and performance issues with root cause suggestions",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["logs"],
+    "properties": {
+      "logs": {
+        "type": "string",
+        "description": "Log content (text or JSON format)"
+      },
+      "logFormat": {
+        "type": "string",
+        "enum": ["text", "json", "syslog", "auto"],
+        "default": "auto"
+      },
+      "analysisGoal": {
+        "type": "string",
+        "enum": ["errors", "performance", "security", "general"],
+        "default": "general"
+      },
+      "includeTimeline": {
+        "type": "boolean",
+        "default": true
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "patterns": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {"type": "string"},
+            "message": {"type": "string"},
+            "count": {"type": "integer"},
+            "severity": {"type": "string"}
+          }
+        }
+      },
+      "rootCauses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "cause": {"type": "string"},
+            "confidence": {"type": "string"},
+            "evidence": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      },
+      "debuggingSteps": {
+        "type": "array",
+        "items": {"type": "string"}
+      },
+      "timeline": {
+        "type": "string",
+        "description": "Mermaid diagram of events"
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "logs": "[ERROR] Connection timeout\n[ERROR] Connection timeout\n[ERROR] Database connection lost",
+        "logFormat": "text",
+        "analysisGoal": "errors"
+      },
+      "output": {
+        "patterns": [
+          {"type": "recurring-error", "message": "Connection timeout", "count": 2, "severity": "high"}
+        ],
+        "rootCauses": [
+          {"cause": "Database connectivity issues", "confidence": "high", "evidence": ["Multiple timeouts"]}
+        ]
+      }
+    }
+  ]
+}
