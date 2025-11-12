@@ -64,20 +64,30 @@ Quick reference table of all available skills:
 | [Recruiter Assistant](./recruiter-assistant/) | Business & Marketing | `recruiter-assistant/SKILL.md` | ✓ Active |
 | [Content Research Writer](./content-research-writer/) | Communication & Writing | `content-research-writer/SKILL.md` | ✓ Active |
 | [Meeting Insights Analyzer](./meeting-insights-analyzer/) | Communication & Writing | `meeting-insights-analyzer/SKILL.md` | ✓ Active |
+| [Technical Documentation Writer](./technical-documentation-writer/) | Communication & Writing | `technical-documentation-writer/SKILL.md` | ✓ Active |
 | [Algorithmic Art](./algorithmic-art/) | Creative & Media | `algorithmic-art/SKILL.md` | ✓ Active |
 | [Canvas Design](./canvas-design/) | Creative & Media | `canvas-design/SKILL.md` | ✓ Active |
 | [Image Enhancer](./image-enhancer/) | Creative & Media | `image-enhancer/SKILL.md` | ✓ Active |
 | [Slack Gif Creator](./slack-gif-creator/) | Creative & Media | `slack-gif-creator/SKILL.md` | ✓ Active |
 | [Theme Factory](./theme-factory/) | Creative & Media | `theme-factory/SKILL.md` | ✓ Active |
 | [Video Downloader](./video-downloader/) | Creative & Media | `video-downloader/SKILL.md` | ✓ Active |
+| [Data Visualization Builder](./data-visualization-builder/) | Creative & Media | `data-visualization-builder/SKILL.md` | ✓ Active |
+| [Api Documentation Generator](./api-documentation-generator/) | Development & Code Tools | `api-documentation-generator/SKILL.md` | ✓ Active |
 | [Ai Prompt Optimizer](./ai-prompt-optimizer/) | Development & Code Tools | `ai-prompt-optimizer/SKILL.md` | ✓ Active |
 | [Artifacts Builder](./artifacts-builder/) | Development & Code Tools | `artifacts-builder/SKILL.md` | ✓ Active |
 | [Changelog Generator](./changelog-generator/) | Development & Code Tools | `changelog-generator/SKILL.md` | ✓ Active |
+| [Ci Cd Pipeline Generator](./ci-cd-pipeline-generator/) | Development & Code Tools | `ci-cd-pipeline-generator/SKILL.md` | ✓ Active |
+| [Code Refactoring Assistant](./code-refactoring-assistant/) | Development & Code Tools | `code-refactoring-assistant/SKILL.md` | ✓ Active |
+| [Database Schema Designer](./database-schema-designer/) | Development & Code Tools | `database-schema-designer/SKILL.md` | ✓ Active |
+| [Docker Compose Builder](./docker-compose-builder/) | Development & Code Tools | `docker-compose-builder/SKILL.md` | ✓ Active |
 | [Mcp Builder](./mcp-builder/) | Development & Code Tools | `mcp-builder/SKILL.md` | ✓ Active |
+| [Log Analyzer Debugger](./log-analyzer-debugger/) | Development & Code Tools | `log-analyzer-debugger/SKILL.md` | ✓ Active |
+| [Performance Profiler Optimizer](./performance-profiler-optimizer/) | Development & Code Tools | `performance-profiler-optimizer/SKILL.md` | ✓ Active |
 | [Security Scanner](./security-scanner/) | Development & Code Tools | `security-scanner/SKILL.md` | ✓ Active |
 | [Skill Creator](./skill-creator/) | Development & Code Tools | `skill-creator/SKILL.md` | ✓ Active |
 | [Template Skill](./template-skill/) | Development & Code Tools | `template-skill/SKILL.md` | ✓ Active |
 | [Webapp Testing](./webapp-testing/) | Development & Code Tools | `webapp-testing/SKILL.md` | ✓ Active |
+| [Dependency Upgrade Assistant](./dependency-upgrade-assistant/) | Productivity & Organization | `dependency-upgrade-assistant/SKILL.md` | ✓ Active |
 | [Document Skills Docx](./document-skills/docx/) | Productivity & Organization | `document-skills/docx/SKILL.md` | ✓ Active |
 | [Document Skills Pdf](./document-skills/pdf/) | Productivity & Organization | `document-skills/pdf/SKILL.md` | ✓ Active |
 | [Document Skills Pptx](./document-skills/pptx/) | Productivity & Organization | `document-skills/pptx/SKILL.md` | ✓ Active |

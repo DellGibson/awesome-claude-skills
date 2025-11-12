@@ -1,0 +1,54 @@
+{
+  "name": "data-visualization-builder",
+  "version": "1.0.0",
+  "description": "Creates interactive charts and dashboards from CSV and JSON data with automated insights",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "creative-media",
+  "inputSchema": {
+    "type": "object",
+    "required": ["data"],
+    "properties": {
+      "data": {"type": "string", "description": "CSV or JSON data to visualize"},
+      "chartType": {"type": "string", "enum": ["auto", "line", "bar", "pie", "scatter", "heatmap", "area"], "default": "auto"},
+      "library": {"type": "string", "enum": ["chartjs", "d3", "matplotlib", "plotly"], "default": "chartjs"},
+      "includeInsights": {"type": "boolean", "default": true},
+      "theme": {"type": "string", "enum": ["light", "dark", "custom"], "default": "light"}
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "chartCode": {"type": "string", "description": "Complete chart implementation code"},
+      "htmlTemplate": {"type": "string", "description": "HTML page with embedded chart"},
+      "insights": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {"type": "string"},
+            "description": {"type": "string"},
+            "value": {"type": "string"}
+          }
+        }
+      },
+      "chartRecommendation": {"type": "string"}
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "data": "month,sales\nJan,12\nFeb,19\nMar,3",
+        "chartType": "auto",
+        "library": "chartjs"
+      },
+      "output": {
+        "chartRecommendation": "Bar chart recommended for categorical time series data",
+        "insights": [
+          {"type": "trend", "description": "Sales peaked in February", "value": "19"},
+          {"type": "total", "description": "Total sales", "value": "34"}
+        ]
+      }
+    }
+  ]
+}

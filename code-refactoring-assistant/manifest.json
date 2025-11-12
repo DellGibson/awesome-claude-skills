@@ -1,0 +1,188 @@
+{
+  "name": "code-refactoring-assistant",
+  "version": "1.0.0",
+  "description": "Analyzes code for smells and complexity issues, suggests refactorings like extract function and remove duplication, calculates cyclomatic complexity metrics",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["code", "language"],
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "Source code to analyze and refactor"
+      },
+      "language": {
+        "type": "string",
+        "enum": ["javascript", "typescript", "python", "go"],
+        "description": "Programming language of the code"
+      },
+      "refactoringGoal": {
+        "type": "string",
+        "enum": ["reduce-complexity", "improve-readability", "remove-duplication", "extract-functions", "general"],
+        "description": "Primary refactoring objective",
+        "default": "general"
+      },
+      "maxComplexity": {
+        "type": "integer",
+        "description": "Target cyclomatic complexity threshold",
+        "default": 10,
+        "minimum": 1,
+        "maximum": 20
+      },
+      "maxFunctionLength": {
+        "type": "integer",
+        "description": "Maximum lines per function",
+        "default": 20,
+        "minimum": 5,
+        "maximum": 100
+      },
+      "includeMetrics": {
+        "type": "boolean",
+        "description": "Calculate and return complexity metrics",
+        "default": true
+      },
+      "provideExamples": {
+        "type": "boolean",
+        "description": "Include before/after code examples",
+        "default": true
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "required": ["issues", "refactoredCode"],
+    "properties": {
+      "issues": {
+        "type": "array",
+        "description": "Detected code smells and quality issues",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["long-method", "complex-conditional", "duplicate-code", "magic-number", "large-class", "deep-nesting"]
+            },
+            "severity": {
+              "type": "string",
+              "enum": ["low", "medium", "high", "critical"]
+            },
+            "line": {
+              "type": "integer"
+            },
+            "description": {
+              "type": "string"
+            },
+            "suggestion": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "refactoredCode": {
+        "type": "string",
+        "description": "Improved version of the code"
+      },
+      "refactorings": {
+        "type": "array",
+        "description": "List of refactorings applied",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "benefit": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "metrics": {
+        "type": "object",
+        "description": "Code complexity metrics before and after",
+        "properties": {
+          "before": {
+            "type": "object",
+            "properties": {
+              "cyclomaticComplexity": {"type": "number"},
+              "linesOfCode": {"type": "integer"},
+              "cognitiveComplexity": {"type": "number"},
+              "functionCount": {"type": "integer"}
+            }
+          },
+          "after": {
+            "type": "object",
+            "properties": {
+              "cyclomaticComplexity": {"type": "number"},
+              "linesOfCode": {"type": "integer"},
+              "cognitiveComplexity": {"type": "number"},
+              "functionCount": {"type": "integer"}
+            }
+          },
+          "improvement": {
+            "type": "object",
+            "properties": {
+              "complexityReduction": {"type": "string"},
+              "locReduction": {"type": "string"},
+              "testabilityImprovement": {"type": "string"}
+            }
+          }
+        }
+      },
+      "testingSuggestions": {
+        "type": "array",
+        "description": "How to test the refactored code",
+        "items": {"type": "string"}
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "function calculate(a, b, op) { if (op === 'add') return a + b; else if (op === 'sub') return a - b; else if (op === 'mul') return a * b; else return a / b; }",
+        "language": "javascript",
+        "refactoringGoal": "improve-readability",
+        "includeMetrics": true
+      },
+      "output": {
+        "issues": [
+          {
+            "type": "complex-conditional",
+            "severity": "medium",
+            "line": 1,
+            "description": "Long if-else chain can be simplified",
+            "suggestion": "Use switch statement or object lookup"
+          }
+        ],
+        "refactorings": [
+          {
+            "type": "replace-conditional",
+            "description": "Replaced if-else chain with object lookup",
+            "benefit": "Easier to extend and maintain"
+          }
+        ],
+        "metrics": {
+          "before": {
+            "cyclomaticComplexity": 4,
+            "linesOfCode": 1,
+            "cognitiveComplexity": 5
+          },
+          "after": {
+            "cyclomaticComplexity": 1,
+            "linesOfCode": 8,
+            "cognitiveComplexity": 1
+          },
+          "improvement": {
+            "complexityReduction": "75%",
+            "testabilityImprovement": "High"
+          }
+        }
+      }
+    }
+  ]
+}

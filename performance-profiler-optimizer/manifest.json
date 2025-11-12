@@ -1,0 +1,62 @@
+{
+  "name": "performance-profiler-optimizer",
+  "version": "1.0.0",
+  "description": "Analyzes code performance bottlenecks and suggests optimizations with Big O complexity analysis",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["code", "language"],
+    "properties": {
+      "code": {"type": "string"},
+      "language": {"type": "string", "enum": ["javascript", "python"]},
+      "targetMetric": {"type": "string", "enum": ["time", "space", "both"], "default": "time"}
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "bottlenecks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {"type": "string"},
+            "description": {"type": "string"},
+            "severity": {"type": "string"},
+            "line": {"type": "integer"}
+          }
+        }
+      },
+      "complexity": {
+        "type": "object",
+        "properties": {
+          "time": {"type": "string"},
+          "space": {"type": "string"}
+        }
+      },
+      "optimizedCode": {"type": "string"},
+      "improvements": {
+        "type": "object",
+        "properties": {
+          "timeImprovement": {"type": "string"},
+          "spaceImprovement": {"type": "string"}
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "for (let i = 0; i < arr.length; i++) { for (let j = 0; j < arr.length; j++) { sum += arr[i] * arr[j]; } }",
+        "language": "javascript"
+      },
+      "output": {
+        "bottlenecks": [{"type": "nested-loop", "severity": "high"}],
+        "complexity": {"time": "O(n²)", "space": "O(1)"},
+        "improvements": {"timeImprovement": "O(n²) → O(n)"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "name": "database-schema-designer",
+  "version": "1.0.0",
+  "description": "Generates SQL schemas and ER diagrams for PostgreSQL, MySQL, and SQLite with support for creating migration files for Prisma, TypeORM, and Alembic",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["description", "database"],
+    "properties": {
+      "description": {
+        "type": "string",
+        "description": "Natural language description of entities, fields, and relationships"
+      },
+      "database": {
+        "type": "string",
+        "enum": ["postgresql", "mysql", "sqlite"],
+        "description": "Target database system",
+        "default": "postgresql"
+      },
+      "orm": {
+        "type": "string",
+        "enum": ["none", "prisma", "typeorm", "alembic", "sequelize"],
+        "description": "ORM framework for migration files",
+        "default": "none"
+      },
+      "outputFormats": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["sql", "mermaid", "prisma", "typeorm", "alembic", "sequelize"]
+        },
+        "description": "Desired output formats",
+        "default": ["sql", "mermaid"]
+      },
+      "includeIndexes": {
+        "type": "boolean",
+        "description": "Generate index recommendations",
+        "default": true
+      },
+      "includeTimestamps": {
+        "type": "boolean",
+        "description": "Add created_at and updated_at to all tables",
+        "default": true
+      },
+      "seedData": {
+        "type": "boolean",
+        "description": "Generate sample seed data",
+        "default": false
+      },
+      "namingConvention": {
+        "type": "string",
+        "enum": ["snake_case", "camelCase"],
+        "description": "Column naming convention",
+        "default": "snake_case"
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "required": ["sql", "entities"],
+    "properties": {
+      "sql": {
+        "type": "string",
+        "description": "Complete SQL DDL statements"
+      },
+      "diagram": {
+        "type": "string",
+        "description": "Mermaid ER diagram syntax"
+      },
+      "ormSchema": {
+        "type": "string",
+        "description": "ORM-specific schema file (Prisma, TypeORM, etc.)"
+      },
+      "migration": {
+        "type": "string",
+        "description": "Migration file for version control"
+      },
+      "entities": {
+        "type": "array",
+        "description": "List of detected entities and their properties",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "tableName": {
+              "type": "string"
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "type": {"type": "string"},
+                  "nullable": {"type": "boolean"},
+                  "unique": {"type": "boolean"},
+                  "primaryKey": {"type": "boolean"}
+                }
+              }
+            },
+            "relationships": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {"type": "string", "enum": ["one-to-one", "one-to-many", "many-to-many"]},
+                  "target": {"type": "string"},
+                  "foreignKey": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      },
+      "indexes": {
+        "type": "array",
+        "description": "Recommended indexes for performance",
+        "items": {
+          "type": "object",
+          "properties": {
+            "table": {"type": "string"},
+            "columns": {"type": "array", "items": {"type": "string"}},
+            "reason": {"type": "string"}
+          }
+        }
+      },
+      "seedData": {
+        "type": "string",
+        "description": "Sample data INSERT statements"
+      },
+      "documentation": {
+        "type": "string",
+        "description": "Markdown documentation of the schema"
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "description": "Create a blog database with Users (id, email, name), Posts (id, title, content, user_id), and Comments (id, content, post_id, user_id). Users have many posts. Posts have many comments.",
+        "database": "postgresql",
+        "orm": "prisma",
+        "outputFormats": ["sql", "mermaid", "prisma"],
+        "includeIndexes": true,
+        "includeTimestamps": true
+      },
+      "output": {
+        "entities": [
+          {
+            "name": "User",
+            "tableName": "users",
+            "columns": [
+              {"name": "id", "type": "SERIAL", "nullable": false, "primaryKey": true},
+              {"name": "email", "type": "VARCHAR(255)", "nullable": false, "unique": true},
+              {"name": "name", "type": "VARCHAR(255)", "nullable": false, "unique": false}
+            ],
+            "relationships": [
+              {"type": "one-to-many", "target": "Post", "foreignKey": "user_id"}
+            ]
+          },
+          {
+            "name": "Post",
+            "tableName": "posts",
+            "columns": [
+              {"name": "id", "type": "SERIAL", "nullable": false, "primaryKey": true},
+              {"name": "title", "type": "VARCHAR(255)", "nullable": false, "unique": false},
+              {"name": "content", "type": "TEXT", "nullable": false, "unique": false},
+              {"name": "user_id", "type": "INTEGER", "nullable": false, "unique": false}
+            ],
+            "relationships": [
+              {"type": "many-to-one", "target": "User", "foreignKey": "user_id"},
+              {"type": "one-to-many", "target": "Comment", "foreignKey": "post_id"}
+            ]
+          }
+        ],
+        "indexes": [
+          {"table": "users", "columns": ["email"], "reason": "Unique constraint for login"},
+          {"table": "posts", "columns": ["user_id"], "reason": "Foreign key for user lookup"},
+          {"table": "comments", "columns": ["post_id", "user_id"], "reason": "Composite index for filtering"}
+        ]
+      }
+    }
+  ]
+}

@@ -57,6 +57,12 @@
       "category": "communication-writing"
     },
     {
+      "name": "technical-documentation-writer",
+      "description": "Generates comprehensive technical documentation including README.md, architecture docs, getting started guides, and API references from code and project structure.",
+      "source": "./technical-documentation-writer",
+      "category": "communication-writing"
+    },
+    {
       "name": "canvas-design",
       "description": "Creates beautiful visual art in PNG and PDF documents using design philosophy and aesthetic principles for posters, designs, and static pieces.",
       "source": "./canvas-design",
@@ -87,10 +93,22 @@
       "category": "creative-media"
     },
     {
+      "name": "data-visualization-builder",
+      "description": "Creates interactive Chart.js and D3.js visualizations from CSV/JSON data, generates dashboards, static charts, and provides data insights for presentations and reports.",
+      "source": "./data-visualization-builder",
+      "category": "creative-media"
+    },
+    {
       "name": "algorithmic-art",
       "description": "Creates algorithmic art and generative designs using computational creativity techniques.",
       "source": "./algorithmic-art",
       "category": "creative-media"
+    },
+    {
+      "name": "api-documentation-generator",
+      "description": "Automatically generates comprehensive API documentation from source code including OpenAPI/Swagger specifications, interactive docs, and example requests for REST APIs.",
+      "source": "./api-documentation-generator",
+      "category": "development"
     },
     {
       "name": "ai-prompt-optimizer",
@@ -111,9 +129,45 @@
       "category": "development"
     },
     {
+      "name": "ci-cd-pipeline-generator",
+      "description": "Creates GitHub Actions and GitLab CI/CD workflow configurations with automated testing, building, security scanning, and deployment stages for modern software projects.",
+      "source": "./ci-cd-pipeline-generator",
+      "category": "development"
+    },
+    {
+      "name": "code-refactoring-assistant",
+      "description": "Analyzes code for smells and complexity issues, suggests refactorings, calculates cyclomatic complexity, and provides before/after comparisons to improve code quality.",
+      "source": "./code-refactoring-assistant",
+      "category": "development"
+    },
+    {
+      "name": "database-schema-designer",
+      "description": "Generates SQL database schemas, ER diagrams, and migration files for PostgreSQL, MySQL, and SQLite with support for Prisma, TypeORM, and Alembic.",
+      "source": "./database-schema-designer",
+      "category": "development"
+    },
+    {
+      "name": "docker-compose-builder",
+      "description": "Generates docker-compose.yml configurations with Dockerfiles, volume setups, networking, and health checks for Node.js, Python, Go, and Rust applications.",
+      "source": "./docker-compose-builder",
+      "category": "development"
+    },
+    {
       "name": "mcp-builder",
       "description": "Guides creation of high-quality MCP (Model Context Protocol) servers for integrating external APIs and services with LLMs using Python or TypeScript.",
       "source": "./mcp-builder",
+      "category": "development"
+    },
+    {
+      "name": "log-analyzer-debugger",
+      "description": "Analyzes log files and stack traces to detect error patterns, anomalies, and performance issues with timeline visualizations and actionable debugging recommendations.",
+      "source": "./log-analyzer-debugger",
+      "category": "development"
+    },
+    {
+      "name": "performance-profiler-optimizer",
+      "description": "Analyzes code performance bottlenecks, calculates time complexity (Big O), identifies memory issues, and suggests optimizations for JavaScript and Python applications.",
+      "source": "./performance-profiler-optimizer",
       "category": "development"
     },
     {
@@ -156,6 +210,12 @@
       "name": "raffle-winner-picker",
       "description": "Randomly selects winners from lists, spreadsheets, or Google Sheets for giveaways and contests with cryptographically secure randomness.",
       "source": "./raffle-winner-picker",
+      "category": "productivity-organization"
+    },
+    {
+      "name": "dependency-upgrade-assistant",
+      "description": "Checks for outdated dependencies in package.json, requirements.txt, and Cargo.toml, reports security vulnerabilities (CVEs), and suggests upgrade strategies with migration guides.",
+      "source": "./dependency-upgrade-assistant",
       "category": "productivity-organization"
     },
     {

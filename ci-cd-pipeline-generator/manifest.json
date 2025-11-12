@@ -1,0 +1,267 @@
+{
+  "name": "ci-cd-pipeline-generator",
+  "version": "1.0.0",
+  "description": "Creates GitHub Actions and GitLab CI/CD pipeline configurations for Node.js, Python, Rust, and Go projects with automated test, build, and deploy stages",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "development",
+  "inputSchema": {
+    "type": "object",
+    "required": ["projectType", "platform"],
+    "properties": {
+      "projectType": {
+        "type": "object",
+        "required": ["language"],
+        "properties": {
+          "language": {
+            "type": "string",
+            "enum": ["nodejs", "python", "go", "rust"],
+            "description": "Primary programming language"
+          },
+          "framework": {
+            "type": "string",
+            "description": "Framework name (express, fastapi, gin, actix, etc.)",
+            "default": ""
+          },
+          "version": {
+            "type": "string",
+            "description": "Language version (e.g., '20' for Node, '3.11' for Python)",
+            "default": "latest"
+          },
+          "packageManager": {
+            "type": "string",
+            "enum": ["npm", "yarn", "pnpm", "pip", "poetry", "cargo", "go"],
+            "description": "Package manager to use",
+            "default": "npm"
+          }
+        }
+      },
+      "platform": {
+        "type": "string",
+        "enum": ["github-actions", "gitlab-ci"],
+        "description": "CI/CD platform to target",
+        "default": "github-actions"
+      },
+      "stages": {
+        "type": "array",
+        "description": "Pipeline stages to include",
+        "items": {
+          "type": "string",
+          "enum": ["lint", "test", "build", "security", "docker", "deploy"]
+        },
+        "default": ["lint", "test", "build"]
+      },
+      "deployment": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "target": {
+            "type": "string",
+            "enum": ["vercel", "netlify", "aws-ecs", "aws-s3", "docker-hub", "heroku", "gcp-cloud-run"],
+            "description": "Deployment target platform"
+          },
+          "environments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "enum": ["production", "staging", "development"]
+                },
+                "branch": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            },
+            "default": []
+          }
+        }
+      },
+      "testing": {
+        "type": "object",
+        "properties": {
+          "coverage": {
+            "type": "boolean",
+            "description": "Enable test coverage reporting",
+            "default": true
+          },
+          "e2e": {
+            "type": "boolean",
+            "description": "Include end-to-end tests",
+            "default": false
+          },
+          "matrix": {
+            "type": "object",
+            "description": "Matrix testing configuration",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "default": false
+              },
+              "versions": {
+                "type": "array",
+                "items": {"type": "string"},
+                "default": []
+              },
+              "os": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["ubuntu-latest", "windows-latest", "macos-latest"]
+                },
+                "default": ["ubuntu-latest"]
+              }
+            }
+          }
+        },
+        "default": {"coverage": true, "e2e": false}
+      },
+      "caching": {
+        "type": "boolean",
+        "description": "Enable dependency caching",
+        "default": true
+      },
+      "notifications": {
+        "type": "object",
+        "properties": {
+          "slack": {
+            "type": "boolean",
+            "default": false
+          },
+          "email": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "default": {"slack": false, "email": false}
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "required": ["workflow", "secrets"],
+    "properties": {
+      "workflow": {
+        "type": "string",
+        "description": "Complete CI/CD workflow YAML configuration"
+      },
+      "secrets": {
+        "type": "array",
+        "description": "List of required secrets and environment variables",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "required": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "documentation": {
+        "type": "string",
+        "description": "Setup instructions and documentation"
+      },
+      "badges": {
+        "type": "array",
+        "description": "Status badge markdown for README",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "markdown": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "estimatedRuntime": {
+        "type": "string",
+        "description": "Estimated pipeline execution time"
+      }
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "projectType": {
+          "language": "nodejs",
+          "framework": "express",
+          "version": "20",
+          "packageManager": "npm"
+        },
+        "platform": "github-actions",
+        "stages": ["lint", "test", "build", "docker", "deploy"],
+        "deployment": {
+          "enabled": true,
+          "target": "aws-ecs",
+          "environments": [
+            {
+              "name": "production",
+              "branch": "main",
+              "url": "https://api.example.com"
+            },
+            {
+              "name": "staging",
+              "branch": "develop",
+              "url": "https://staging.api.example.com"
+            }
+          ]
+        },
+        "testing": {
+          "coverage": true,
+          "e2e": false,
+          "matrix": {
+            "enabled": false
+          }
+        },
+        "caching": true
+      },
+      "output": {
+        "secrets": [
+          {
+            "name": "DOCKER_USERNAME",
+            "description": "Docker Hub username",
+            "required": true
+          },
+          {
+            "name": "DOCKER_PASSWORD",
+            "description": "Docker Hub password or token",
+            "required": true
+          },
+          {
+            "name": "AWS_ACCESS_KEY_ID",
+            "description": "AWS access key for deployment",
+            "required": true
+          },
+          {
+            "name": "AWS_SECRET_ACCESS_KEY",
+            "description": "AWS secret access key",
+            "required": true
+          }
+        ],
+        "badges": [
+          {
+            "name": "CI/CD",
+            "markdown": "![CI/CD](https://github.com/user/repo/workflows/CI-CD%20Pipeline/badge.svg)"
+          }
+        ],
+        "estimatedRuntime": "5-8 minutes"
+      }
+    }
+  ]
+}

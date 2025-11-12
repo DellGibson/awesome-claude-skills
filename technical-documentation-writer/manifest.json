@@ -1,0 +1,46 @@
+{
+  "name": "technical-documentation-writer",
+  "version": "1.0.0",
+  "description": "Generates comprehensive technical documentation including README files, architecture docs, and getting started guides",
+  "author": "ComposioHQ",
+  "license": "Apache-2.0",
+  "category": "communication-writing",
+  "inputSchema": {
+    "type": "object",
+    "required": ["projectName"],
+    "properties": {
+      "projectName": {"type": "string"},
+      "description": {"type": "string"},
+      "projectStructure": {"type": "string"},
+      "code": {"type": "string"},
+      "docType": {
+        "type": "string",
+        "enum": ["readme", "architecture", "api-reference", "getting-started", "contributing", "all"],
+        "default": "readme"
+      },
+      "includeDiagrams": {"type": "boolean", "default": true},
+      "includeExamples": {"type": "boolean", "default": true}
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "readme": {"type": "string"},
+      "architecture": {"type": "string"},
+      "apiReference": {"type": "string"},
+      "contributing": {"type": "string"}
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "projectName": "awesome-api",
+        "description": "A REST API for awesome things",
+        "docType": "readme"
+      },
+      "output": {
+        "readme": "# Awesome API\n\nA REST API for awesome things.\n\n## Installation\n\n..."
+      }
+    }
+  ]
+}
