@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "purpose": "Ultra-compact skill metadata for fast routing (2K tokens vs. 89K)",
+  "totalSkills": 26,
+  "skills": [
+    {"id": "algorithmic-art", "cat": "creative-media", "desc": "Algorithmic art and generative designs", "tags": ["art", "generative"], "mcp": "low", "tok": 1900},
+    {"id": "artifacts-builder", "cat": "development", "desc": "React + Tailwind HTML artifacts", "tags": ["react", "frontend"], "mcp": "medium", "tok": 4800},
+    {"id": "brand-guidelines", "cat": "business-marketing", "desc": "Anthropic brand standards", "tags": ["branding", "design"], "mcp": "low", "tok": 1200},
+    {"id": "canvas-design", "cat": "creative-media", "desc": "PNG/PDF visual art creation", "tags": ["design", "visual"], "mcp": "low", "tok": 2700},
+    {"id": "changelog-generator", "cat": "development", "desc": "Git commits to changelogs", "tags": ["git", "docs"], "mcp": "medium", "tok": 2100},
+    {"id": "competitive-ads-extractor", "cat": "business-marketing", "desc": "Competitor ad analysis", "tags": ["ads", "competitive"], "mcp": "high", "tok": 2500},
+    {"id": "content-research-writer", "cat": "communication-writing", "desc": "Research-backed writing", "tags": ["writing", "research"], "mcp": "medium", "tok": 3400},
+    {"id": "document-skills-docx", "cat": "productivity-organization", "desc": "Microsoft Word documents", "tags": ["docx", "office"], "mcp": "low", "tok": 7200},
+    {"id": "document-skills-pdf", "cat": "productivity-organization", "desc": "PDF documents", "tags": ["pdf", "document"], "mcp": "low", "tok": 6800},
+    {"id": "document-skills-pptx", "cat": "productivity-organization", "desc": "PowerPoint presentations", "tags": ["pptx", "office"], "mcp": "low", "tok": 6500},
+    {"id": "document-skills-xlsx", "cat": "productivity-organization", "desc": "Excel spreadsheets", "tags": ["xlsx", "office"], "mcp": "low", "tok": 6900},
+    {"id": "domain-name-brainstormer", "cat": "business-marketing", "desc": "Domain name generation", "tags": ["domain", "naming"], "mcp": "medium", "tok": 1800},
+    {"id": "file-organizer", "cat": "productivity-organization", "desc": "Intelligent file organization", "tags": ["files", "cleanup"], "mcp": "medium", "tok": 2300},
+    {"id": "image-enhancer", "cat": "creative-media", "desc": "Image quality improvement", "tags": ["image", "enhancement"], "mcp": "medium", "tok": 1600},
+    {"id": "internal-comms", "cat": "business-marketing", "desc": "Company communications", "tags": ["comms", "internal"], "mcp": "low", "tok": 2000},
+    {"id": "invoice-organizer", "cat": "productivity-organization", "desc": "Invoice/receipt organization", "tags": ["invoice", "tax"], "mcp": "medium", "tok": 2600},
+    {"id": "lead-research-assistant", "cat": "business-marketing", "desc": "Lead generation and research", "tags": ["sales", "leads"], "mcp": "high", "tok": 3100},
+    {"id": "mcp-builder", "cat": "development", "desc": "MCP server creation guide", "tags": ["mcp", "server"], "mcp": "meta", "tok": 8500},
+    {"id": "meeting-insights-analyzer", "cat": "communication-writing", "desc": "Meeting transcript analysis", "tags": ["meeting", "analysis"], "mcp": "medium", "tok": 2800},
+    {"id": "raffle-winner-picker", "cat": "productivity-organization", "desc": "Random winner selection", "tags": ["random", "raffle"], "mcp": "low", "tok": 1400},
+    {"id": "skill-creator", "cat": "development", "desc": "Skill creation guide", "tags": ["skill", "meta"], "mcp": "low", "tok": 6200},
+    {"id": "slack-gif-creator", "cat": "creative-media", "desc": "Slack-optimized GIF creation", "tags": ["gif", "slack"], "mcp": "low", "tok": 5800},
+    {"id": "template-skill", "cat": "development", "desc": "Skill template", "tags": ["template"], "mcp": "n/a", "tok": 100},
+    {"id": "theme-factory", "cat": "creative-media", "desc": "Professional themes", "tags": ["themes", "design"], "mcp": "low", "tok": 2400},
+    {"id": "video-downloader", "cat": "creative-media", "desc": "Video downloading", "tags": ["video", "download"], "mcp": "medium", "tok": 2200},
+    {"id": "webapp-testing", "cat": "development", "desc": "Playwright web testing", "tags": ["testing", "playwright"], "mcp": "low", "tok": 2900}
+  ]
+}
